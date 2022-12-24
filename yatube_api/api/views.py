@@ -1,16 +1,15 @@
 from typing import Any
 
-from django.db.models.query import QuerySet
-from rest_framework import viewsets, serializers, filters
-from rest_framework.generics import get_object_or_404
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from rest_framework.serializers import BaseSerializer
-from rest_framework.pagination import LimitOffsetPagination
-
 from api.permissions import AccesDeniedPermissions
-from api.serializers import CommentSerializer, GroupSerializer, PostSerializer, \
-    FollowSerializer
-from posts.models import Comment, Group, Post, Follow, User
+from api.serializers import (CommentSerializer, FollowSerializer,
+                             GroupSerializer, PostSerializer)
+from django.db.models.query import QuerySet
+from posts.models import Comment, Follow, Group, Post, User
+from rest_framework import filters, viewsets
+from rest_framework.generics import get_object_or_404
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.serializers import BaseSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -57,18 +56,21 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class FollowViewSet(viewsets.ModelViewSet):
+    queryset = Follow.objects.all()
     serializer_class = FollowSerializer
-    pagination_class = None
     filter_backends = (filters.SearchFilter,)
     search_fields = ('following__username',)
-    queryset = Follow.objects.all()
+    pagination_class = None
 
-    def get_queryset(self):
+    def get_queryset(self) -> None:
         return Follow.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer: BaseSerializer[Any]) -> None:
-        # serializer.is_valid(raise_exception=True)
+        serializer.is_valid(raise_exception=True)
         serializer.save(
             user=self.request.user,
-            author=get_object_or_404(User, username=serializer.initial_data.get('following'))
+            following=get_object_or_404(
+                User,
+                username=serializer.initial_data.get('following'),
+            ),
         )

@@ -1,14 +1,16 @@
 from typing import Any
 
 from django.http import HttpRequest
-from rest_framework import permissions
-
 from posts.models import Post
+from rest_framework import permissions
 
 
 class AccesDeniedPermissions(permissions.BasePermission):
     def has_object_permission(
-        self, request: HttpRequest, view: Any, obj: Post,
+        self,
+        request: HttpRequest,
+        view: Any,
+        obj: Post,
     ) -> bool:
         del view
         return (

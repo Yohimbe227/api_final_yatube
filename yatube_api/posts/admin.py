@@ -1,6 +1,5 @@
 from django.contrib import admin
-
-from posts.models import Comment, Group, Post, Follow
+from posts.models import Comment, Follow, Group, Post
 
 
 @admin.register(Post)
@@ -42,12 +41,12 @@ class Comment(admin.ModelAdmin):
 class Follow(admin.ModelAdmin):
     list_display = (
         'pk',
-        'author',
+        'following',
         'user',
     )
     search_fields = (
         'user',
-        'author',
+        'following',
     )
     list_filter = ('user',)
     empty_value_display = '-пусто-'
