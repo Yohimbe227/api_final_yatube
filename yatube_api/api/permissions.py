@@ -12,6 +12,18 @@ class AccesDeniedPermissions(permissions.BasePermission):
         view: Any,
         obj: Post,
     ) -> bool:
+        """
+        Разрешение выдается для всех пользователей при безопасном методе
+        запроса или когда текущий пользователь есть автор поста.
+
+        Args:
+            request: Данные из запроса.
+            view: Не используется.
+            obj: объект класса Post.
+
+        Returns:
+            Разрешен доступ или нет.
+        """
         del view
         return (
             request.method in permissions.SAFE_METHODS

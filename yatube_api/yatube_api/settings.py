@@ -16,10 +16,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'api',
+    'api.apps.ApiConfig',
     'djoser',
-    'posts',
+    'posts.apps.PostsConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -80,13 +80,12 @@ LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
-
 USE_L10N = True
 
 USE_TZ = True
 
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = ((BASE_DIR / 'static/'),)
 
 REST_FRAMEWORK = {
@@ -97,7 +96,6 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
-
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=100),

@@ -18,7 +18,9 @@ class Post(models.Model):
     text = models.TextField()
     pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='posts',
+        User,
+        on_delete=models.CASCADE,
+        related_name='posts',
     )
     image = models.ImageField(upload_to='posts/', null=True, blank=True)
     group = models.ForeignKey(
@@ -29,7 +31,7 @@ class Post(models.Model):
         null=True,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.text
 
 
@@ -51,6 +53,9 @@ class Comment(models.Model):
         db_index=True,
     )
 
+    def __str__(self) -> str:
+        return self.text
+
 
 class Follow(models.Model):
     user = models.ForeignKey(
@@ -68,10 +73,16 @@ class Follow(models.Model):
         null=True,
     )
 
-    def __str__(self):
-        return f'{self.user.name()} подписан на {self.following.name}'
-
     class Meta:
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
-        unique_together = (('user', 'following'),)
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'following'],
+                name='unique_user_following',
+            ),
+        ]
+
+    def __str__(self):
+        return f'{self.user.name} подписан на {self.following.name}'

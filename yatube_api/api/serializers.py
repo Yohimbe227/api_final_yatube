@@ -14,7 +14,16 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class Base64ImageField(serializers.ImageField):
-    def to_internal_value(self, data):
+    def to_internal_value(self, data: str) -> ContentFile:
+        """
+        Конвертируем строку в картинку.
+
+        Args:
+            data: строка в base64 формате.
+
+        Returns:
+            Сконвертированная из строки картинка.
+        """
         if isinstance(data, str) and data.startswith('data:image'):
             format, imgstr = data.split(';base64,')
             ext = format.split('/')[-1]
@@ -25,7 +34,6 @@ class Base64ImageField(serializers.ImageField):
 
 class PostSerializer(serializers.ModelSerializer):
     author = SlugRelatedField(slug_field='username', read_only=True)
-    image = Base64ImageField(required=False, allow_null=True)
 
     class Meta:
         model = Post
@@ -80,11 +88,23 @@ class FollowSerializer(serializers.ModelSerializer):
             ),
         ]
 
-    def validate(self, data: dict) -> dict:
+    def validate_following(self, data: str) -> str:
+        """
+        Проверка подписки на самого себя.
+
+        Args:
+            data: Пользователь, на которого подписываемся.
+
+        Returns:
+            Пользователь, на которого подписываемся.
+
+        Raises:
+             ValidationError: Нельзя подписаться на себя!
+        """
         user = None
-        request = self.context.get("request")
-        if request and hasattr(request, "user"):
+        request = self.context.get('request')
+        if request and hasattr(request, 'user'):
             user = request.user
-        if data['following'] == user:
+        if data == user:
             raise serializers.ValidationError('Нельзя подписаться на себя!')
         return data
