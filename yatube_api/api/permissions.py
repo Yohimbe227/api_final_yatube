@@ -1,8 +1,9 @@
 from typing import Any
 
 from django.http import HttpRequest
-from posts.models import Post
 from rest_framework import permissions
+
+from posts.models import Post
 
 
 class AccesDeniedPermissions(permissions.BasePermission):
