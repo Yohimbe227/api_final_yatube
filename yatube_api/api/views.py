@@ -11,7 +11,7 @@ from api.serializers import (
     CommentSerializer,
     FollowSerializer,
     GroupSerializer,
-    PostSerializer
+    PostSerializer,
 )
 from posts.models import Comment, Follow, Group, Post, User
 
@@ -29,10 +29,10 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer: PostSerializer[Any]) -> None:
         """
-        Сохраняем в поле author значение текущего пользователя.
+        Сохраняем в поле `author` значение текущего пользователя.
 
         Args:
-            serializer: сериализатор модели Post.
+            serializer: сериализатор модели `Post`.
         """
         serializer.save(author=self.request.user)
 
@@ -43,14 +43,13 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    pagination_class = None
 
     def get_post(self) -> Post:
         """
-        Получаем объект Post по его `id`.
+        Получаем объект `Post` по его `id`.
 
         Returns:
-            Объект Post.
+            Объект `Post`.
         """
         return get_object_or_404(Post, pk=self.kwargs.get('post_id'))
 
@@ -80,15 +79,13 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    pagination_class = None
 
 
 class FollowViewSet(viewsets.ModelViewSet):
-    queryset = Follow.objects.all()
+    queryset = Follow.objects.select_related('Follow')
     serializer_class = FollowSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('following__username',)
-    pagination_class = None
 
     def get_queryset(self) -> None:
         """
@@ -97,7 +94,7 @@ class FollowViewSet(viewsets.ModelViewSet):
         Returns:
             Все объекты подписок текущего пользователя.
         """
-        return Follow.objects.filter(user=self.request.user)
+        return self.request.user.follower
 
     def perform_create(self, serializer: FollowSerializer[Any]) -> None:
         """

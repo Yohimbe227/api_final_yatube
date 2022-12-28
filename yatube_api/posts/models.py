@@ -80,9 +80,13 @@ class Follow(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'following'],
-                name='unique_user_following',
+                name='%(app_label)s_%(class)s_unique_relationships',
+            ),
+            models.CheckConstraint(
+                name='%(app_label)s_%(class)s_prevent_self_follow',
+                check=~models.Q(from_user=models.F("to_user")),
             ),
         ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'{self.user.name} подписан на {self.following.name}'

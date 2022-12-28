@@ -24,7 +24,7 @@ class GroupAdmin(BaseAdmin):
 
 
 @admin.register(Comment)
-class Comment(BaseAdmin):
+class CommentAdmin(BaseAdmin):
     list_display = (
         'pk',
         'text',
@@ -36,7 +36,7 @@ class Comment(BaseAdmin):
 
 
 @admin.register(Follow)
-class Follow(admin.ModelAdmin):
+class FollowAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'following',
