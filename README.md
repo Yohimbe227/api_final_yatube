@@ -1,4 +1,4 @@
-# Хайлоу, Это API_Yatube<img src="https://github.com/blackcater/blackcater/raw/main/images/Hi.gif" height="32"/></h1>
+# Хайлоу, это API_Yatube<img src="https://github.com/blackcater/blackcater/raw/main/images/Hi.gif" height="32"/></h1>
 The best social network in the world!  
 _(ну может слегка преувеличил)_
 
@@ -11,7 +11,7 @@ _**Мы наконец ушли от страшненьких Django templates!
 Теперь можно попрактиковаться в разработке своего API посредством
 Django REST fraemwork.**_
 
-### Как запустить?
+### Установка/Installation
 Для windows python3 замените на python. Клонировать репозиторий и перейти в него
 в командной строке:
 ```
