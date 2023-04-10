@@ -1,12 +1,16 @@
-<h1 align="center">Хайлоу, Это <a  target="_blank">API_Yatube</a> 
-<img src="https://github.com/blackcater/blackcater/raw/main/images/Hi.gif" height="32"/></h1>
-<h3 align="center">The best social network in the world!<br>
-(ну может слегка преувеличил) </h3>
+# Хайлоу, Это API_Yatube<img src="https://github.com/blackcater/blackcater/raw/main/images/Hi.gif" height="32"/></h1>
+The best social network in the world!  
+_(ну может слегка преувеличил)_
 
-### Stack:
-python 3, Django 3, Django REST fraemwork, sqlite3 
-### Для чего?
-Тренировка навыков и применение знаний по разработке API сервиса.
+_**Основной стэк**_:  
+![Python](https://img.shields.io/badge/python-3.7-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Django](https://img.shields.io/badge/django-3.1-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-3-ff1709?style=for-the-badge&logo=aiogram&logoColor=white&color=ff1709&labelColor=gray)
+
+_**Мы наконец ушли от страшненьких Django templates!
+Теперь можно попрактиковаться в разработке своего API посредством
+Django REST fraemwork.**_
+
 ### Как запустить?
 Для windows python3 замените на python. Клонировать репозиторий и перейти в него
 в командной строке:
